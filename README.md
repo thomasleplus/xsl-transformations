@@ -5,7 +5,7 @@ Each transform has been tested with [Saxon-HE for Java](http://www.saxonica.com/
 
 `java -jar Saxon-HE-10.0.jar -xsl:transform:.xsl -s:source.xml -o:output.xml`
 
-Any other XSLT processor supporting XSLT 3.0 should work as well.
+Any other XSLT processor supporting XSLT 3.0 should work as well. If you want to test them online, you can use [XSLT Fiddle](https://xsltfiddle.liberty-development.net).
 
 ### KML
 
