@@ -11,4 +11,4 @@ Any other XSLT processor supporting XSLT 3.0 should work as well.
 
 ### Sort Placemarks Alphabetically
 
-[This](src/main/resources/xml/kml/kml_sort_placemarks_alphabetically.xsl) XSLT sorts the `Placemark` elements inside of a KML document in ascending alphabetical order. The `Folder` elements themselves are not reordered, only the `Placemark` elements inside each `Folder` element.
+[kml_sort_placemarks_alphabetically.xsl](src/main/resources/xml/kml/kml_sort_placemarks_alphabetically.xsl) sorts the `Placemark` elements inside of a KML document in ascending alphabetical order. The `Folder` elements themselves are not reordered, only the `Placemark` elements inside each `Folder` element.
