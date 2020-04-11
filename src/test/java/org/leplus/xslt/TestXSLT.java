@@ -157,6 +157,7 @@ public class TestXSLT {
 	private File applyXSLT(final File inputFile, final File xsltFile)
 			throws TransformerException, FileNotFoundException, IOException {
 		final File outputFile = new File(inputFile.getPath().replace(TEST_RESOURCES_DIR, BUILD_DIR));
+		outputFile.getParentFile().mkdirs();
 		try (final FileInputStream xsltStream = new FileInputStream(xsltFile);
 				final FileInputStream inputStream = new FileInputStream(inputFile);
 				final FileOutputStream outputStream = new FileOutputStream(outputFile)) {
