@@ -49,6 +49,9 @@ public class TestXSLT {
 	private void testXSLTs(final File xsltFile) throws IOException, TransformerException, SAXException {
 		final String testDirName = xsltFile.getPath().replace(MAIN_RESOURCES_DIR, TEST_RESOURCES_DIR);
 		final File testDir = new File(testDirName.substring(0, testDirName.lastIndexOf('.')));
+		if (!testDir.exists()) {
+			return;
+		}
 		final Collection<File> inputFiles = FileUtils.listFiles(testDir, new PrefixFileFilter(INPUT_FILE_PREFIX),
 				FileFilterUtils.trueFileFilter());
 		for (final File inputFile : inputFiles) {
