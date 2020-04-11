@@ -1,2 +1,2 @@
 # xsl-transformations
-A collection of XSLT files for all sorts of purposes
+A collection of XSLT files for all sorts of purposes.
