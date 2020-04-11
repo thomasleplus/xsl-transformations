@@ -1,13 +1,19 @@
 package org.leplus.xslt;
 
+import static org.hamcrest.CoreMatchers.is;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
@@ -20,10 +26,18 @@ import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
 import org.custommonkey.xmlunit.XMLUnit;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.json.JSONException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
+import org.skyscreamer.jsonassert.JSONCompare;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.xml.sax.SAXException;
+
+import net.sf.saxon.lib.FeatureKeys;
 
 public class TestXSLT {
 
@@ -33,6 +47,9 @@ public class TestXSLT {
 	private static final String[] XSLT_EXTENSIONS = { "xsl", "xslt" };
 	private static final String INPUT_FILE_PREFIX = "input";
 	private static final String OUTPUT_FILE_PREFIX = "output";
+
+	private static final String XML = "xml";
+	private static final String JSON = "json";
 
 	@Rule
 	public ErrorCollector collector = new ErrorCollector();
@@ -73,21 +90,81 @@ public class TestXSLT {
 	private void testXSLT(final File xsltFile, final File inputFile, final File expectedOutputFile)
 			throws TransformerException, SAXException, IOException {
 		final File actualOutputFile = applyXSLT(inputFile, xsltFile);
-		final Reader actualOutputFileReader = new FileReader(actualOutputFile);
-		final Reader expectedOutputFileReader = new FileReader(expectedOutputFile);
-		final DetailedDiff detailXmlDiff = new DetailedDiff(new Diff(actualOutputFileReader, expectedOutputFileReader));
-		@SuppressWarnings("unchecked")
-		final List<Difference> differences = detailXmlDiff.getAllDifferences();
-		for (Difference difference : differences) {
-			collector.addError(new Throwable(difference.toString()));
+		final String type = Files.probeContentType(actualOutputFile.toPath());
+		if (type.startsWith(XML) || type.endsWith(XML)) {
+			compareXML(expectedOutputFile, actualOutputFile);
+		} else if (type.startsWith(JSON) || type.endsWith(JSON)) {
+			compareJSON(expectedOutputFile, actualOutputFile);
+		} else {
+			compareFile(expectedOutputFile, actualOutputFile);
 		}
 	}
 
-	private File applyXSLT(final File inputFile, final File xsltFile) throws TransformerException {
-		final TransformerFactory transfomerFactory = TransformerFactory.newInstance();
-		final Transformer transformer = transfomerFactory.newTransformer(new StreamSource(xsltFile));
+	private void compareJSON(File expectedOutputFile, File actualOutputFile) {
+		collector.checkThat(actualOutputFile, isSameJSONas(expectedOutputFile));
+	}
+
+	private Matcher<File> isSameJSONas(final File expected) {
+		return new JSONMatcher(expected);
+	}
+
+	private static final class JSONMatcher extends BaseMatcher<File> {
+
+		private final File expected;
+
+		private JSONMatcher(final File expected) {
+			this.expected = expected;
+		}
+
+		@Override
+		public boolean matches(Object item) {
+			try {
+				return !JSONCompare
+						.compareJSON(FileUtils.readFileToString(expected, StandardCharsets.UTF_8),
+								FileUtils.readFileToString((File) item, StandardCharsets.UTF_8), JSONCompareMode.STRICT)
+						.failed();
+			} catch (JSONException | IOException e) {
+				throw new AssertionError(e);
+			}
+		}
+
+		@Override
+		public void describeTo(Description description) {
+			description.appendText("has same JSON content as " + expected);
+		}
+
+	}
+
+	private void compareFile(File expectedOutputFile, File actualOutputFile) throws IOException {
+		collector.checkThat("Files differ (expected: " + expectedOutputFile + ", actual: " + actualOutputFile + ")",
+				FileUtils.contentEquals(expectedOutputFile, actualOutputFile), is(true));
+	}
+
+	private void compareXML(final File expectedOutputFile, final File actualOutputFile)
+			throws FileNotFoundException, SAXException, IOException {
+		try (final Reader actualOutputFileReader = new FileReader(actualOutputFile);
+				final Reader expectedOutputFileReader = new FileReader(expectedOutputFile)) {
+			final DetailedDiff detailXmlDiff = new DetailedDiff(
+					new Diff(actualOutputFileReader, expectedOutputFileReader));
+			@SuppressWarnings("unchecked")
+			final List<Difference> differences = detailXmlDiff.getAllDifferences();
+			for (Difference difference : differences) {
+				collector.addError(new Throwable(difference.toString()));
+			}
+		}
+	}
+
+	private File applyXSLT(final File inputFile, final File xsltFile)
+			throws TransformerException, FileNotFoundException, IOException {
 		final File outputFile = new File(inputFile.getPath().replace(TEST_RESOURCES_DIR, BUILD_DIR));
-		transformer.transform(new StreamSource(inputFile), new StreamResult(outputFile));
+		try (final FileInputStream xsltStream = new FileInputStream(xsltFile);
+				final FileInputStream inputStream = new FileInputStream(inputFile);
+				final FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+			final TransformerFactory tf = TransformerFactory.newInstance();
+			tf.setAttribute(FeatureKeys.ALLOW_EXTERNAL_FUNCTIONS, false); // Security
+			tf.newTransformer(new StreamSource(xsltStream)).transform(new StreamSource(inputStream),
+					new StreamResult(outputStream));
+		}
 		return outputFile;
 	}
 
