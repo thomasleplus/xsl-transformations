@@ -2,8 +2,8 @@
 
 A collection of XSLT files for all sorts of purposes.
 
-![Maven](https://github.com/thomasleplus/xsl-transformations/workflows/Maven/badge.svg)
-![CodeQL](https://github.com/thomasleplus/xsl-transformations/workflows/CodeQL/badge.svg)
+[![Maven](https://github.com/thomasleplus/xsl-transformations/workflows/Maven/badge.svg)](https://github.com/thomasleplus/xsl-transformations/actions?query=workflow:"Maven")
+[![CodeQL](https://github.com/thomasleplus/xsl-transformations/workflows/CodeQL/badge.svg)](https://github.com/thomasleplus/xsl-transformations/actions?query=workflow:"CodeQL")
 
 Each transform has been tested with [Saxon-HE for Java](http://www.saxonica.com/download/java.xml). You can run Saxon directly from the command line like this:
 
