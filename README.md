@@ -1,4 +1,4 @@
-# xsl-transformations
+# XSL Transformations
 
 A collection of XSLT files for all sorts of purposes.
 
