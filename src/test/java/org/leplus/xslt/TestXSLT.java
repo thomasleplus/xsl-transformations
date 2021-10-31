@@ -1,6 +1,7 @@
 package org.leplus.xslt;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,9 +31,7 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.json.JSONException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONCompare;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.xml.sax.SAXException;
@@ -50,9 +49,6 @@ public class TestXSLT {
 
 	private static final String XML = "xml";
 	private static final String JSON = "json";
-
-	@Rule
-	public ErrorCollector collector = new ErrorCollector();
 
 	@Test
 	public void test() throws IOException, TransformerException, SAXException {
@@ -77,10 +73,9 @@ public class TestXSLT {
 							.replace(INPUT_FILE_PREFIX, OUTPUT_FILE_PREFIX)),
 					FileFilterUtils.trueFileFilter());
 			if (candidateOutputFiles.size() == 0) {
-				collector.addError(new Throwable("Missing expected output file for input file " + inputFile));
+				fail("Missing expected output file for input file " + inputFile);
 			} else if (candidateOutputFiles.size() > 1) {
-				collector.addError(new Throwable(
-						"Multiple expected output files for input file " + inputFile + ": " + candidateOutputFiles));
+				fail("Multiple expected output files for input file " + inputFile + ": " + candidateOutputFiles);
 			} else {
 				testXSLT(xsltFile, inputFile, candidateOutputFiles.iterator().next());
 			}
@@ -101,7 +96,7 @@ public class TestXSLT {
 	}
 
 	private void compareJSON(File expectedOutputFile, File actualOutputFile) {
-		collector.checkThat(actualOutputFile, isSameJSONas(expectedOutputFile));
+		assertThat(actualOutputFile, isSameJSONas(expectedOutputFile));
 	}
 
 	private Matcher<File> isSameJSONas(final File expected) {
@@ -136,8 +131,7 @@ public class TestXSLT {
 	}
 
 	private void compareFile(File expectedOutputFile, File actualOutputFile) throws IOException {
-		collector.checkThat("Files differ (expected: " + expectedOutputFile + ", actual: " + actualOutputFile + ")",
-				FileUtils.contentEquals(expectedOutputFile, actualOutputFile), is(true));
+	    assertTrue(FileUtils.contentEquals(expectedOutputFile, actualOutputFile), "Files differ (expected: " + expectedOutputFile + ", actual: " + actualOutputFile + ")");
 	}
 
 	private void compareXML(final File expectedOutputFile, final File actualOutputFile)
@@ -149,7 +143,7 @@ public class TestXSLT {
 			@SuppressWarnings("unchecked")
 			final List<Difference> differences = detailXmlDiff.getAllDifferences();
 			for (Difference difference : differences) {
-				collector.addError(new Throwable(difference.toString()));
+				fail(difference.toString());
 			}
 		}
 	}
