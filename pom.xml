@@ -65,7 +65,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <maven.compiler.release>${java.version}</maven.compiler.release>
-    <dependencyCheck.version>9.2.0</dependencyCheck.version>
+    <dependencyCheck.version>10.0.1</dependencyCheck.version>
     <dependencyCheck.skip>false</dependencyCheck.skip>
     <dependencyCheck.threshold>7</dependencyCheck.threshold>
   </properties>
@@ -91,12 +91,12 @@
     <dependency>
       <groupId>org.skyscreamer</groupId>
       <artifactId>jsonassert</artifactId>
-      <version>1.5.2</version>
+      <version>1.5.3</version>
     </dependency>
     <dependency>
       <groupId>net.sf.saxon</groupId>
       <artifactId>Saxon-HE</artifactId>
-      <version>12.4</version>
+      <version>12.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -200,7 +200,7 @@
       <plugin>
 	<groupId>com.github.spotbugs</groupId>
 	<artifactId>spotbugs-maven-plugin</artifactId>
-	<version>4.8.6.0</version>
+	<version>4.8.6.1</version>
         <configuration>
           <plugins>
             <plugin>
@@ -225,7 +225,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.6.0</version>
+        <version>3.6.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
