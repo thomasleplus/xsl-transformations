@@ -65,7 +65,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <maven.compiler.release>${java.version}</maven.compiler.release>
-    <dependencyCheck.version>10.0.4</dependencyCheck.version>
+    <dependencyCheck.version>11.0.0</dependencyCheck.version>
     <dependencyCheck.skip>false</dependencyCheck.skip>
     <dependencyCheck.threshold>7</dependencyCheck.threshold>
   </properties>
@@ -73,7 +73,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.11.2</version>
+      <version>5.11.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -200,7 +200,7 @@
       <plugin>
 	<groupId>com.github.spotbugs</groupId>
 	<artifactId>spotbugs-maven-plugin</artifactId>
-	<version>4.8.6.4</version>
+	<version>4.8.6.5</version>
         <configuration>
           <plugins>
             <plugin>
@@ -225,7 +225,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.7.0</version>
+        <version>3.8.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
