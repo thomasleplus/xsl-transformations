@@ -86,9 +86,9 @@ public class TestXSLT {
 			throws TransformerException, SAXException, IOException {
 		final File actualOutputFile = applyXSLT(inputFile, xsltFile);
 		final String type = Files.probeContentType(actualOutputFile.toPath());
-		if (type.startsWith(XML) || type.endsWith(XML)) {
+		if (type != null && (type.startsWith(XML) || type.endsWith(XML))) {
 			compareXML(expectedOutputFile, actualOutputFile);
-		} else if (type.startsWith(JSON) || type.endsWith(JSON)) {
+		} else if (type != null && (type.startsWith(JSON) || type.endsWith(JSON))) {
 			compareJSON(expectedOutputFile, actualOutputFile);
 		} else {
 			compareFile(expectedOutputFile, actualOutputFile);
