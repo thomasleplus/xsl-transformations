@@ -5,7 +5,7 @@ A collection of XSLT files for all sorts of purposes.
 [![Maven](https://github.com/thomasleplus/xsl-transformations/workflows/Maven/badge.svg)](https://github.com/thomasleplus/xsl-transformations/actions?query=workflow:"Maven")
 [![CodeQL](https://github.com/thomasleplus/xsl-transformations/workflows/CodeQL/badge.svg)](https://github.com/thomasleplus/xsl-transformations/actions?query=workflow:"CodeQL")
 
-Each transform has been tested with [Saxon-HE for Java](http://www.saxonica.com/download/java.xml). You can run Saxon directly from the command line like this:
+Each transform has been tested with [Saxon-HE for Java](https://www.saxonica.com/download/java.xml). You can run Saxon directly from the command line like this:
 
 `java -jar Saxon-HE-10.0.jar -xsl:transform:.xsl -s:source.xml -o:output.xml`
 
