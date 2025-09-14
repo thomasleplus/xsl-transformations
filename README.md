@@ -11,7 +11,7 @@ Each transform has been tested with [Saxon-HE for Java](https://www.saxonica.com
 
 Any other XSLT processor supporting XSLT 3.0 should work as well. If you want to test them online, you can use [XSLT Fiddle](https://xsltfiddle.liberty-development.net).
 
-### KML
+## KML
 
 ### Sort Placemarks Alphabetically
 
