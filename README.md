@@ -15,3 +15,13 @@ Any other XSLT processor supporting XSLT 3.0 should work as well. If you want to
 ### Sort Placemarks Alphabetically
 
 [kml_sort_placemarks_alphabetically.xsl](src/main/resources/xml/kml/kml_sort_placemarks_alphabetically.xsl) sorts the `Placemark` elements inside of a KML document in ascending alphabetical order. The `Folder` elements themselves are not reordered, only the `Placemark` elements inside each `Folder` element.
+
+## JSON
+
+### JSON to XML
+
+[json_to_xml.xsl](src/main/resources/json/json_to_xml.xsl) converts JSON data to XML format using the XSLT 3.0 `json-to-xml()` function. The input JSON should be contained within a `<data>` element.
+
+### XML to JSON
+
+[xml_to_json.xsl](src/main/resources/xml/xml_to_json.xsl) converts XML documents to JSON format using the XSLT 3.0 `xml-to-json()` function with indentation enabled for readable output.
