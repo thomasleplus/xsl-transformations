@@ -25,3 +25,19 @@ Any other XSLT processor supporting XSLT 3.0 should work as well. If you want to
 ### XML to JSON
 
 [xml_to_json.xsl](src/main/resources/xml/xml_to_json.xsl) converts XML documents to JSON format using the XSLT 3.0 `xml-to-json()` function with indentation enabled for readable output.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## Security
+
+Please read [SECURITY.md](SECURITY.md) for details on our security policy and how to report security vulnerabilities.
+
+## Code of Conduct
+
+Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details on our code of conduct.
+
+## License
+
+This project is licensed under the terms of the [LICENSE](LICENSE) file.
