@@ -1,8 +1,8 @@
 # Source
 
-XSLT stylesheets and a Java test harness that applies them.
+XSLT style sheets and a Java test harness that applies them.
 
-- `main/resources/` — the stylesheets:
+- `main/resources/` — the style sheets:
   - `json/json_to_xml.xsl`, `xml/xml_to_json.xsl` — JSON↔XML conversions.
   - `xml/kml/kml_sort_placemarks_alphabetically.xsl` — sorts KML placemarks.
 - `test/java/org/leplus/xslt/TestXSLT.java` + `test/resources/` —
